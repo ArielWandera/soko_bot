@@ -41,7 +41,6 @@ export const browseListings = new Action({
   }),
   handler: async ({ input, client, configuration: config }) => {
     const token = await getToken(client)
-    if (!token) return { listings: [], error: 'Please log in to browse listings.' }
 
     const params = new URLSearchParams()
     if (input.search) params.set('search', input.search)
@@ -52,9 +51,9 @@ export const browseListings = new Action({
     params.set('limit', String(input.limit ?? 6))
 
     try {
-      const res = await fetch(`${config.backendUrl}/listings/?${params}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      const headers: Record<string, string> = {}
+      if (token) headers['Authorization'] = `Bearer ${token}`
+      const res = await fetch(`${config.backendUrl}/listings/?${params}`, { headers })
       if (!res.ok) return { listings: [], error: 'Could not fetch listings' }
       const data = await res.json()
       const raw: any[] = Array.isArray(data) ? data : (data.items ?? [])
@@ -210,7 +209,6 @@ export const getPriceSummary = new Action({
   }),
   handler: async ({ input, client, configuration: config }) => {
     const token = await getToken(client)
-    if (!token) return { error: 'Please log in to check prices.' }
 
     const params = new URLSearchParams()
     if (input.search) params.set('search', input.search)
@@ -219,9 +217,9 @@ export const getPriceSummary = new Action({
     params.set('limit', '50')
 
     try {
-      const res = await fetch(`${config.backendUrl}/listings/?${params}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      const headers: Record<string, string> = {}
+      if (token) headers['Authorization'] = `Bearer ${token}`
+      const res = await fetch(`${config.backendUrl}/listings/?${params}`, { headers })
       if (!res.ok) return { error: 'Could not fetch price data' }
       const data = await res.json()
       const listings: any[] = Array.isArray(data) ? data : (data.items ?? [])
