@@ -69,8 +69,8 @@ export const browseListings = new Action({
         availableQty: l.available_qty ?? l.availableQty ?? 0,
         farmerName: l.farmer_name ?? l.farmerName,
         farmerId: l.farmer_id ?? l.farmerId,
-        viewUrl: `${config.appUrl}/marketplace/${l.slug}`,
-        buyUrl: `${config.appUrl}/marketplace/${l.slug}?action=buy`,
+        viewUrl: `${config.appUrl}/marketplace/${l.id}`,
+        buyUrl: `${config.appUrl}/marketplace/${l.id}?action=buy`,
       }))
       return { listings }
     } catch {
