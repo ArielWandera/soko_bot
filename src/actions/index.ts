@@ -66,8 +66,9 @@ export const browseListings = new Action({
         price: l.price,
         unit: l.unit,
         availableQty: l.available_qty ?? l.availableQty ?? 0,
-        farmerName: l.farmer_name ?? l.farmerName,
+        farmerName: l.farmer ?? l.farmer_name ?? l.farmerName,
         farmerId: l.farmer_id ?? l.farmerId,
+        availableQty: l.qty ?? l.available_qty ?? l.availableQty ?? 0,
         viewUrl: `${config.appUrl}/marketplace/${l.id}`,
         buyUrl: `${config.appUrl}/marketplace/${l.id}?action=buy`,
       }))
